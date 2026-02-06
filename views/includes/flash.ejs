@@ -1,0 +1,41 @@
+<!-- why are we using success.length>0 condition ? because, success is array and initially it is empty then array will be always exist and condition will show true so message always flash -->
+
+<div class="container-xl">
+  <% if (success && success.length > 0) { %>
+    <div class="row justify-content-center">
+      <div class="col-lg-6 col-md-8 col-sm-11">
+        <div
+          class="alert alert-success alert-dismissible fade show mt-3 text-center"
+          role="alert"
+        >
+          <%= success %>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="alert"
+            aria-label="Close"
+          ></button>
+        </div>
+      </div>
+    </div>
+  <% } %>
+
+  <% if (error && error.length > 0) { %>
+    <div class="row justify-content-center">
+      <div class="col-lg-6 col-md-8 col-sm-11">
+        <div
+          class="alert alert-danger alert-dismissible fade show mt-3 text-center"
+          role="alert"
+        >
+          <%= error %>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="alert"
+            aria-label="Close"
+          ></button>
+        </div>
+      </div>
+    </div>
+  <% } %>
+</div>

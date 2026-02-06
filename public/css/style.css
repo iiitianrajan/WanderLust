@@ -1,0 +1,163 @@
+/* GLOBAL SCALE LOCK (CRITICAL) */
+html {
+  font-size: 16px; /* NEVER CHANGE */
+}
+
+body {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-weight: 500;
+  font-size: 1rem; /* no enlargement */
+  line-height: 1.5;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* CONTAINER */
+.container,
+.container-lg,
+.container-xl {
+  flex: 1;
+}
+
+/* ===============================
+   NAVBAR
+================================ */
+.navbar {
+  height: 4rem;
+  background-color: #ffffff;
+}
+
+.navbar-nav {
+  display: flex;
+  gap: 1.25rem;
+}
+
+.navbar-nav a {
+  font-size: 1rem; /* FIXED */
+  font-weight: 500;
+  color: #222222;
+}
+
+.fa-compass {
+  color: #ff385c;
+  font-size: 1.8rem;
+}
+
+.nav-link {
+  color: #222222 !important;
+}
+
+/* ===============================
+   FOOTER
+================================ */
+.f-info {
+  text-align: center;
+  display: flex;
+  background-color: #f7f7f7;
+  height: 7rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.f-info-link,
+.f-info-social,
+.f-info-brand {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.95rem;
+}
+
+.f-info-link a {
+  text-decoration: none;
+  color: #222222;
+}
+
+.f-info-link a:hover {
+  text-decoration: underline;
+}
+
+.f-info-social i {
+  margin-right: 1rem;
+}
+
+/* ===============================
+   LISTING CARDS
+================================ */
+.listing-card {
+  border: none;
+  margin: 0 auto;
+}
+
+.card-img-top {
+  width: 100%;
+  height: 280px; /* PX → STABLE */
+  border-radius: 1rem;
+  object-fit: cover;
+}
+
+.card-body {
+  padding: 0;
+}
+
+.listing-link {
+  text-decoration: none;
+}
+
+.card-img-overlay {
+  opacity: 0;
+  transition: 0.2s ease-in-out;
+}
+
+.card-img-overlay:hover {
+  background-color: #ffffff;
+  opacity: 0.2;
+}
+
+/* ===============================
+   BUTTONS
+================================ */
+.add-btn {
+  background-color: #ff385c;
+  border: none;
+}
+
+.mb-3 {
+  margin-top: 1.2rem;
+}
+
+/* ===============================
+   SHOW PAGE
+================================ */
+.show-img {
+  height: 45vh;
+}
+
+.btns {
+  display: flex;
+  gap: 0.5rem;
+}
+
+/* ===============================
+   LISTING WIDTH CONTROL
+================================ */
+.box-width {
+  width: 100%;
+  max-width: 1320px;
+  margin: 0 auto;
+}
+
+/* ===============================
+   RESPONSIVE
+================================ */
+@media (max-width: 768px) {
+  .card-img-top {
+    height: 220px;
+  }
+
+  .navbar-nav {
+    gap: 1rem;
+  }
+}

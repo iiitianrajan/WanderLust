@@ -1,0 +1,10 @@
+# Form Validations
+  When we enter data in the form, the browser andlor the web server will check to see that the data is
+  in the correct format and within the constraints set by the application.
+
+# Success & Failure Text
+
+<form novalidation,class = "needs-Validations">
+all input -> required
+<div class="invalid-feedback">please enter location </div> 
+<div class="valid-feedback">valid </div> 
