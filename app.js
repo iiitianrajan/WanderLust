@@ -114,6 +114,11 @@ app.use((req,res,next)=>{ // middleware for flash
 //     res.send(registerUser);
 // })
 
+app.get("/", (req, res) => {
+    res.redirect("/listing");
+});
+
+
 app.use("/listing", listingRouter); //middleware for listingRouter
 app.use("/listing/:id/reviews/", reviewRouter); //middleware for reviewRouter
 app.use("/",userRouter);
