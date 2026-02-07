@@ -7,6 +7,35 @@ module.exports.index = async (req, res, next) => {
 
 };
 
+module.exports.search = async (req,res,next)=>{
+    let { city } = req.body;
+
+    // if(!city){
+    //     req.flash("error","Search empty");
+    //     return res.redirect("/listing");
+    // }
+
+    // split words: "New Delhi" -> ["New","Delhi"]
+    let words = city.split(" ");
+
+    let searchConditions = words.map(word => ({
+        location: { $regex: word, $options: "i" }
+    }));
+
+    let allListing = await Listing.find({
+        $or: searchConditions
+    });
+
+    if(allListing.length === 0){
+        req.flash("error","No place found 😢");
+        return res.redirect("/listing");
+    }
+
+    res.render("index.ejs",{ allListing });
+};
+
+
+
 module.exports.renderNewForm = (req, res) => {
     res.render("form.ejs")
     

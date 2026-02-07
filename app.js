@@ -5,6 +5,8 @@ if (process.env.NODE_ENV != "production") {
 }
 
 
+
+
 const express = require('express');
 const app = express();
 const path = require('path');
@@ -41,6 +43,10 @@ app.use(methodOverride("_method"))
 
 
 const dbUrl = process.env.ATLASDB_URL;
+const mongoUrl = process.env.MONGO_URL;
+
+console.log("SECRET:", process.env.SECRET);
+
 
 
 //database connection
@@ -50,27 +56,24 @@ main().then((result) => {
     console.log("data base connection erro: ", err);
 })
 async function main() {
-    await mongoose.connect(dbUrl);
+    await mongoose.connect(mongoUrl);
 }
 
-// const store = MongoStore.create({
-//     mongoUrl: dbUrl,
-//     collectionName: "sessions",
-//     stringify: false,
-//     autoRemove: "native",
-//     crypto: {
-//         secret: "mysupersecretcode"
-//     },
-//     touchAfter: 24 * 3600,
-// });
 
 
-// store.on("error",(err)=>{
-//     console.log("Error in MONGO STORE",err)
-// })
+const store = MongoStore.create({
+    mongoUrl: mongoUrl,
+    touchAfter: 24 * 3600,
+});
+
+
+store.on("error",(err)=>{
+    console.log("Error in MONGO STORE",err)
+})
+
 // session
 const sessionOption = {
-    // store,
+    store:store,
     secret: process.env.SECRET,
     resave:false,
     saveUninitialized:true,
@@ -98,6 +101,7 @@ passport.use(new LocalStrategy(User.authenticate()))
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
+
 app.use((req,res,next)=>{ // middleware for flash
     res.locals.success = req.flash("success");
     res.locals.error = req.flash("error");
@@ -108,7 +112,7 @@ app.use((req,res,next)=>{ // middleware for flash
 // app.use("/demoUser",async (req,res)=>{
 //     let fakeUser = new User({
 //         email:"abc123@gmail.com",
-//         username:"coder"
+        // username:"coder"
 //     })
 //     let registerUser = await User.register(fakeUser,"helloword");
 //     res.send(registerUser);

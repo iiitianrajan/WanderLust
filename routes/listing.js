@@ -28,6 +28,10 @@ router
 .get( WrapAsync(listingController.index))
 .post(validateListing,isLoggedIn,upload.single('listing[image]'), WrapAsync(listingController.createNewList))
 
+// search feature
+router.post("/search", WrapAsync(listingController.search));
+
+
 
 // crete new list(getting form)
 router.get("/new",isLoggedIn,listingController.renderNewForm);

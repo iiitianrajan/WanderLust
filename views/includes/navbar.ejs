@@ -48,9 +48,9 @@
       </div>
 
       <div class="navbar-nav ms-auto">
-        <form class="d-flex" role="search">
+        <form action="/listing/search" class="d-flex" role="search" method="POST">
           <input class="form-control me-2 search-input" type="search" placeholder="Search destination"
-            aria-label="Search" />
+            aria-label="Search" name="city" autocomplete="off"/>
           <button class="btn search-btn" type="submit">
             <div style="display: flex; justify-content: center; align-items: center;"><i
                 class="fa-solid fa-magnifying-glass"></i>Search</div>
@@ -73,3 +73,12 @@
     </div>
   </div>
 </nav>
+
+<script>
+  window.addEventListener("pageshow", function () {
+      const input = document.querySelector(".search-input");
+      if(input){
+          input.value = "";
+      }
+  });
+</script>
