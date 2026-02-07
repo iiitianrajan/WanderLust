@@ -45,7 +45,7 @@ app.use(methodOverride("_method"))
 const dbUrl = process.env.ATLASDB_URL;
 
 
-console.log("SECRET:", process.env.SECRET);
+
 
 
 
