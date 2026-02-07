@@ -43,7 +43,7 @@ app.use(methodOverride("_method"))
 
 
 const dbUrl = process.env.ATLASDB_URL;
-const mongoUrl = process.env.MONGO_URL;
+// const mongoUrl = process.env.MONGO_URL;
 
 console.log("SECRET:", process.env.SECRET);
 
@@ -56,13 +56,13 @@ main().then((result) => {
     console.log("data base connection erro: ", err);
 })
 async function main() {
-    await mongoose.connect(mongoUrl);
+    await mongoose.connect(dbUrl);
 }
 
 
 
 const store = MongoStore.create({
-    mongoUrl: mongoUrl,
+    mongoUrl: dbUrl,
     touchAfter: 24 * 3600,
 });
 
