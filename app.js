@@ -52,7 +52,7 @@ main().then((result) => {
 })
 
 async function main() {
-    await mongoose.connect(mongoURL);
+    await mongoose.connect(dbUrl);
 }
 
 
