@@ -1,174 +1,376 @@
 <% layout("/layouts/boilerplates") %>
 
-<div class="container-xl mt-4">
-  <div class="row justify-content-center">
 
-    <!-- MAIN CONTENT -->
-    <div class="col-lg-10">
+  <div class="container-xl mt-4">
+    <div class="row justify-content-center">
 
-      <!-- TITLE -->
-      <h2 class="mb-3">
-        <%= listing.title %>
-      </h2>
+      <!-- MAIN CONTENT -->
+      <div class="col-lg-10">
 
-      <!-- LISTING CARD -->
-      <div class="card border-0 mb-3">
-        <img 
-          src="<%= listing.image.url %>" 
-          class="card-img-top show-img w-100"
-          alt="listing image"
-        />
+        <!-- TITLE and share button-->
 
-        <div class="card-body px-0">
-          <p class="card-text">
-            <b>Owned By:</b>
-            <i><%= listing.owner.username %></i>
-          </p>
-
-          <p class="card-text">
-            <%= listing.description %>
-          </p>
-
-          <p class="card-text">
-            ₹<%= listing.price ? listing.price.toLocaleString("en-IN") : "N/A" %>/night
-          </p>
-
-          <p class="card-text">
-            <%= listing.location %><br />
-            <%= listing.country %>
-          </p>
-        </div>
-      </div>
-
-      <!-- OWNER ACTION BUTTONS -->
-      <% if (currUser && currUser._id.equals(listing.owner._id)) { %>
-        <div class="btns mb-4">
-          <a 
-            href="/listing/<%= listing._id %>/edit"
-            class="btn btn-dark add-btn me-2"
-          >
-            Edit
-          </a>
-
-          <form 
-            method="POST"
-            action="/listing/<%= listing._id %>?_method=DELETE"
-          >
-            <button class="btn btn-dark add-btn">
-              Delete
+        <div style="display: flex; align-items:center; justify-content: space-between;">
+          <span>
+            <h2 class="mb-3">
+              <%= listing.title %>
+            </h2>
+          </span>
+          <span class="share-button">
+            <button onclick="shareListing()" class="btn btn-outline-dark">
+              <i class="fa-solid fa-share-nodes"></i> Share
             </button>
-          </form>
+          </span>
         </div>
-      <% } %>
 
-      <hr />
 
-      <!-- REVIEW FORM -->
-      <% if (currUser) { %>
-        <h4>Leave a Review</h4>
+        <!-- LISTING CARD -->
+        <div class="card border-0 mb-3">
+          <img src="<%= listing.image.url %>" class="card-img-top show-img w-100" alt="listing image" />
 
-        <form 
-          method="POST"
-          action="/listing/<%= listing._id %>/reviews"
-          class="needs-validation"
-          novalidate
-        >
-          <div class="mb-3">
-            <label class="form-label">Rating:</label>
+          <div class="card-body px-0">
+            <p class="card-text">
+              <b>Owned By:</b>
+              <i>
+                <%= listing.owner.username %>
+              </i>
+            </p>
 
-            <fieldset class="starability-slot">
-              <input
-                type="radio"
-                id="no-rate"
-                class="input-no-rate"
-                name="review[rating]"
-                value="1"
-                checked
-              />
+            <p class="card-text">
+              <%= listing.description %>
+            </p>
 
-              <input type="radio" id="rate1" name="review[rating]" value="1" />
-              <label for="rate1">1 star</label>
+            <p class="card-text">
+              ₹<%= listing.price ? listing.price.toLocaleString("en-IN") : "N/A" %>/night
+            </p>
 
-              <input type="radio" id="rate2" name="review[rating]" value="2" />
-              <label for="rate2">2 stars</label>
 
-              <input type="radio" id="rate3" name="review[rating]" value="3" />
-              <label for="rate3">3 stars</label>
+            <p class="card-text">
+              <%= listing.location %><br />
+                <%= listing.country %>
+            </p>
 
-              <input type="radio" id="rate4" name="review[rating]" value="4" />
-              <label for="rate4">4 stars</label>
+            <!-- BOOKING SECTION -->
+            <% if(currUser){ %>
 
-              <input type="radio" id="rate5" name="review[rating]" value="5" />
-              <label for="rate5">5 stars</label>
-            </fieldset>
-          </div>
 
-          <div class="mb-3">
-            <label for="comment" class="form-label">Comment:</label>
-            <textarea
-              name="review[comment]"
-              id="comment"
-              class="form-control"
-              rows="4"
-              placeholder="Write your comment..."
-              required
-            ></textarea>
-            <div class="invalid-feedback">
-              Please add a comment for the review
-            </div>
-          </div>
 
-          <button class="btn btn-outline-dark">
-            Submit
-          </button>
-        </form>
+              <div class="airbnb-card mt-3 mb-4">
 
-        <hr />
-      <% } %>
+                <!-- Price -->
+                <h4 class="airbnb-price mb-3">
+                  ₹<%= listing.price %>
+                    <span style="font-size:14px; color:gray;">/night</span>
+                </h4>
 
-      <!-- ALL REVIEWS -->
-      <p>
-        <b>All Reviews (<%= listing.reviews.length %>)</b>
-      </p>
+                <form action="/booking/<%= listing._id %>" method="POST" class="needs-validation" novalidate>
 
-      <div class="row">
-        <% for (let review of listing.reviews) { %>
-          <div class="col-md-6">
-            <div class="card mb-3">
-              <div class="card-body p-3">
-                <h6 class="card-title mb-1">
-                  <b>@<%= review.author.username %></b>
-                  <small class="text-muted">
-                    (<%= review.createdAt.toDateString() %>)
-                  </small>
-                </h6>
+                  <!-- Date section -->
+                  <div class="date-box mb-3">
+                    <div class="row g-0">
+                      <div class="col-6 border-end">
+                        <label for="fromDate" class="form-label small px-2 pt-2">CHECK-IN</label>
+                        <input type="date" name="fromDate" class="form-control" id="fromDate" required>
+                      </div>
 
-                <p
-                  class="starability-result mb-2"
-                  data-rating="<%= review.rating %>"
-                ></p>
+                      <div class="col-6">
+                        <label for="toDate" class="form-label small px-2 pt-2">CHECK-OUT</label>
+                        <input type="date" name="toDate" class="form-control" id="toDate" required>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Total Price -->
+                  <p class="mt-2 fw-bold text-success" id="totalPrice">
+                    Total Price: ₹0
+                  </p>
 
-                <p class="card-text">
-                  <%= review.comment %>
-                </p>
+                  <!-- Button -->
+                  <button class="btn airbnb-btn w-20 text-white">
+                    Book Now
+                  </button>
+
+                  <!-- Extra info -->
+                  <p class="text-center text-muted mt-2" style="font-size:13px;">
+                    You won't be charged yet
+                  </p>
+
+                </form>
+
               </div>
 
-              <% if (currUser && currUser._id.equals(listing.owner._id)) { %>
-                <form
-                  method="POST"
-                  action="/listing/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE"
-                  class="px-3 pb-3"
-                >
-                  <button class="btn btn-sm btn-dark">
-                    Delete
-                  </button>
-                </form>
-              <% } %>
-            </div>
-          </div>
-        <% } %>
-      </div>
+              <% } else { %>
+                <p class="text-danger fw-semibold">Login to book this property</p>
+                <% } %>
 
+                  <p class="text-muted">
+                    Category: <b>
+                      <%= listing.category %>
+                    </b>
+                  </p>
+
+
+          </div>
+        </div>
+
+        <!-- OWNER ACTION BUTTONS -->
+        <% if (currUser && currUser._id.equals(listing.owner._id)) { %>
+          <div class="btns mb-4">
+            <a href="/listing/<%= listing._id %>/edit" class="btn btn-dark add-btn me-2">
+              Edit
+            </a>
+
+            <form method="POST" action="/listing/<%= listing._id %>?_method=DELETE">
+              <button class="btn btn-dark add-btn">
+                Delete
+              </button>
+            </form>
+          </div>
+          <% } %>
+
+            <!-- amenities -->
+            <hr class="my-4">
+
+            <div class="amenities-section">
+
+              <h4 class="mb-4 fw-bold">What this place offers</h4>
+
+              <% if(listing.amenities && listing.amenities.length> 0){ %>
+
+                <div class="row">
+
+                  <% listing.amenities.forEach(item=> { %>
+
+                    <div class="col-md-6 mb-3">
+                      <div class="amenity-card d-flex align-items-center">
+
+                        <!-- Icon -->
+                        <div class="amenity-icon me-3">
+                          <% if(item==="Wifi" ){ %>
+                            <i class="fa-solid fa-wifi"></i>
+                            <% } else if(item==="Kitchen" ){ %>
+                              <i class="fa-solid fa-utensils"></i>
+                              <% } else if(item==="Parking" ){ %>
+                                <i class="fa-solid fa-car"></i>
+                                <% } else if(item==="TV" ){ %>
+                                  <i class="fa-solid fa-tv"></i>
+                                  <% } else if(item==="AC" ){ %>
+                                    <i class="fa-solid fa-snowflake"></i>
+                                    <% } else if(item==="Pets" ){ %>
+                                      <i class="fa-solid fa-paw"></i>
+                                      <% } else if(item==="Workspace" ){ %>
+                                        <i class="fa-solid fa-briefcase"></i>
+                                        <% } else if(item==="Security" ){ %>
+                                          <i class="fa-solid fa-video"></i>
+                                          <% } else { %>
+                                            <i class="fa-solid fa-circle-check"></i>
+                                            <% } %>
+                        </div>
+
+                        <!-- Text -->
+                        <div class="amenity-text">
+                          <%= item %>
+                        </div>
+
+                      </div>
+                    </div>
+
+                    <% }) %>
+
+                </div>
+
+                <% } else { %>
+                  <p class="text-muted">No amenities added yet</p>
+                  <% } %>
+
+            </div>
+
+
+            <hr />
+
+<h4>Where you'll be</h4>
+
+<div id="map" style="height:400px; border-radius:15px;"></div>
+
+
+            <!-- REVIEW FORM -->
+            <% if (currUser) { %>
+              <h4>Leave a Review</h4>
+
+              <form method="POST" action="/listing/<%= listing._id %>/reviews" class="needs-validation" novalidate>
+                <div class="mb-3">
+                  <label class="form-label">Rating:</label>
+
+                  <fieldset class="starability-slot">
+                    <input type="radio" id="no-rate" class="input-no-rate" name="review[rating]" value="1" checked />
+
+                    <input type="radio" id="rate1" name="review[rating]" value="1" />
+                    <label for="rate1">1 star</label>
+
+                    <input type="radio" id="rate2" name="review[rating]" value="2" />
+                    <label for="rate2">2 stars</label>
+
+                    <input type="radio" id="rate3" name="review[rating]" value="3" />
+                    <label for="rate3">3 stars</label>
+
+                    <input type="radio" id="rate4" name="review[rating]" value="4" />
+                    <label for="rate4">4 stars</label>
+
+                    <input type="radio" id="rate5" name="review[rating]" value="5" />
+                    <label for="rate5">5 stars</label>
+                  </fieldset>
+                </div>
+
+                <div class="mb-3">
+                  <label for="comment" class="form-label">Comment:</label>
+                  <textarea name="review[comment]" id="comment" class="form-control" rows="4"
+                    placeholder="Write your comment..." required></textarea>
+                  <div class="invalid-feedback">
+                    Please add a comment for the review
+                  </div>
+                </div>
+
+                <button class="btn btn-outline-dark">
+                  Submit
+                </button>
+              </form>
+
+              <hr />
+              <% } %>
+
+                <!-- ALL REVIEWS -->
+                <p>
+                  <b>All Reviews (<%= listing.reviews.length %>)</b>
+                </p>
+
+                <div class="row">
+                  <% for (let review of listing.reviews) { %>
+                    <div class="col-md-6">
+                      <div class="card mb-3">
+                        <div class="card-body p-3">
+                          <h6 class="card-title mb-1">
+                            <b>@<%= review.author.username %></b>
+                            <small class="text-muted">
+                              (<%= review.createdAt.toDateString() %>)
+                            </small>
+                          </h6>
+
+                          <p class="starability-result mb-2" data-rating="<%= review.rating %>"></p>
+
+                          <p class="card-text">
+                            <%= review.comment %>
+                          </p>
+                        </div>
+
+                        <% if (currUser && currUser._id.equals(listing.owner._id)) { %>
+                          <form method="POST"
+                            action="/listing/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE"
+                            class="px-3 pb-3">
+                            <button class="btn btn-sm btn-dark">
+                              Delete
+                            </button>
+                          </form>
+                          <% } %>
+                      </div>
+                    </div>
+                    <% } %>
+                </div>
+
+      </div>
     </div>
   </div>
-</div>
+
+  <!-- used to calculate price without refreshing pagae using js -->
+  <script>
+    const fromInput = document.getElementById("fromDate");
+    const toInput = document.getElementById("toDate");
+    const priceDisplay = document.getElementById("totalPrice");
+
+    const pricePerNight = Number("<%= listing.price %>");  // backend price
+
+    function calculatePrice() {
+      const fromDate = new Date(fromInput.value);
+      const toDate = new Date(toInput.value);
+
+      if (fromInput.value && toInput.value) {
+        const diff = toDate - fromDate;
+        const days = diff / (1000 * 60 * 60 * 24);
+
+        if (days > 0) {
+          const total = days * pricePerNight;
+          priceDisplay.innerText = "Total Price: ₹" + total;
+        } else {
+          priceDisplay.innerText = "Select valid dates";
+        }
+      }
+    }
+
+    fromInput.addEventListener("change", calculatePrice);
+    toInput.addEventListener("change", calculatePrice);
+  </script>
+
+<!-- for share button -->
+  <script>
+    function shareListing() {
+
+      const url = window.location.href;
+      const title = document.title;
+
+      // if browser supports navigator share (mobile)
+      if (navigator.share) {
+        navigator.share({
+          title: title,
+          url: url
+        })
+          .then(() => console.log("Shared"))
+          .catch(err => console.log(err));
+      }
+      else {
+        // fallback → copy link
+        navigator.clipboard.writeText(url);
+        alert("Link copied! Share with friends ");
+      }
+    }
+  </script>
+
+<!-- for map -->
+<script>
+
+const locationName = "<%= listing.location %>, <%= listing.country %>";
+
+fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(locationName)}`)
+.then(res => res.json())
+.then(data => {
+
+    if(!data || data.length === 0){
+        console.log("Location not found");
+        return;
+    }
+
+    const lat = parseFloat(data[0].lat);
+    const lon = parseFloat(data[0].lon);
+
+    // create map
+    const map = L.map('map',{
+        scrollWheelZoom:false,
+        dragging:false
+    }).setView([lat, lon], 12);
+
+    //  map tiles
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap'
+    }).addTo(map);
+
+    // marker
+    L.marker([lat, lon]).addTo(map)
+    .bindPopup("<b><%= listing.title %></b><br><%= listing.location %>")
+    .openPopup();
+
+    // enable zoom + drag only when user clicks map
+    map.on('click', function(){
+        map.scrollWheelZoom.enable();
+        map.dragging.enable();
+    });
+
+})
+.catch(err => console.log(err));
+
+</script>

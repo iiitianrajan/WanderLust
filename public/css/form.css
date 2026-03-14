@@ -1,0 +1,41 @@
+/* css for amenities in form (when create a new listing) */
+.amenity-box{
+  border:1px solid #ddd;
+  border-radius:14px;
+  padding:18px 10px;
+  text-align:center;
+  cursor:pointer;
+  width:100%;
+  transition:.3s;
+  background:white;
+}
+
+.amenity-box i{
+  font-size:22px;
+  display:block;
+  margin-bottom:8px;
+  color:#555;
+}
+
+.amenity-box span{
+  font-size:14px;
+  font-weight:500;
+}
+
+.amenity-box input{
+  display:none;
+}
+
+.amenity-box:hover{
+  border:1px solid #000;
+  transform:scale(1.01);
+}
+
+.amenity-box input:checked + i{
+  color:#ff385c;
+}
+
+.amenity-box input:checked ~ span{
+  color:#ff385c;
+  font-weight:600;
+}

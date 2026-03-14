@@ -31,10 +31,24 @@ router
 // search feature
 router.post("/search", WrapAsync(listingController.search));
 
+// trending
+router.get('/trending',WrapAsync(listingController.trending))
 
+// category filter
+router.get("/category/:cat", WrapAsync(listingController.categoryFilter));
 
 // crete new list(getting form)
 router.get("/new",isLoggedIn,listingController.renderNewForm);
+
+// privacy and terms
+router.get('/privacy',(req,res)=>{
+    res.render('static/privacy.ejs')
+})
+
+router.get('/terms',(req,res)=>{
+    res.render('static/terms.ejs')
+})
+
 
 router.route("/:id")
 .get( WrapAsync(listingController.showListing))

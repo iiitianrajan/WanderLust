@@ -1,12 +1,12 @@
 /* GLOBAL SCALE LOCK (CRITICAL) */
 html {
-  font-size: 16px; /* NEVER CHANGE */
+  font-size: 16px; 
 }
 
 body {
   font-family: "Plus Jakarta Sans", sans-serif;
   font-weight: 500;
-  font-size: 1rem; /* no enlargement */
+  font-size: 1rem; 
   line-height: 1.5;
   display: flex;
   flex-direction: column;
@@ -20,9 +20,9 @@ body {
   flex: 1;
 }
 
-/* ===============================
-   NAVBAR
-================================ */
+
+   /* NAVBAR */
+
 .navbar {
   height: 4rem;
   background-color: #ffffff;
@@ -34,7 +34,7 @@ body {
 }
 
 .navbar-nav a {
-  font-size: 1rem; /* FIXED */
+  font-size: 1rem; 
   font-weight: 500;
   color: #222222;
 }
@@ -58,6 +58,7 @@ body {
   height: 7rem;
   justify-content: center;
   flex-wrap: wrap;
+  
 }
 
 .f-info-link,
@@ -70,9 +71,17 @@ body {
   font-size: 0.95rem;
 }
 
+.f-info-link,
+.f-info-social,
+a:hover{
+  cursor: pointer;
+}
+
 .f-info-link a {
   text-decoration: none;
+  margin: 0px 2px;
   color: #222222;
+  
 }
 
 .f-info-link a:hover {
@@ -81,6 +90,10 @@ body {
 
 .f-info-social i {
   margin-right: 1rem;
+}
+
+.f-info-social a {
+  color: inherit;
 }
 
 /* ===============================
@@ -96,6 +109,7 @@ body {
   height: 280px; /* PX → STABLE */
   border-radius: 1rem;
   object-fit: cover;
+  transition:0.3s;
 }
 
 .card-body {
@@ -152,9 +166,18 @@ body {
 /* ===============================
    RESPONSIVE
 ================================ */
-@media (max-width: 768px) {
+@media  (max-width: 550px) {
   .card-img-top {
-    height: 220px;
+    height: 200px;
+  }
+
+  .navbar-nav {
+    gap: 1rem;
+  }
+}
+@media  (max-width: 371px) {
+  .card-img-top {
+    height: 140px;
   }
 
   .navbar-nav {

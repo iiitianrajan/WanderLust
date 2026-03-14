@@ -1,0 +1,46 @@
+
+  .booking-container{
+    max-width:900px;
+    margin:auto;
+  }
+
+  .booking-card{
+    border:1px solid #e5e5e5;
+    border-radius:18px;
+    padding:18px;
+    margin-bottom:20px;
+    background:#fff;
+    box-shadow:0 6px 18px rgba(0,0,0,0.08);
+    transition:0.3s;
+  }
+
+  .booking-card:hover{
+    transform:scale(1.01);
+    box-shadow:0 10px 25px rgba(0,0,0,0.15);
+  }
+
+  .booking-title{
+    font-weight:600;
+    font-size:20px;
+  }
+
+  .booking-date{
+    color:#717171;
+    font-size:14px;
+  }
+
+  .booking-price{
+    font-size:18px;
+    font-weight:600;
+    color:#ff385c;
+  }
+
+  .booking-badge{
+    background:#ff385c;
+    color:#fff;
+    padding:4px 10px;
+    margin: 3px 0px;
+    border-radius:20px;
+    font-size:12px;
+    font-weight:500;
+  }

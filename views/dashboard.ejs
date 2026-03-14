@@ -1,0 +1,137 @@
+<% layout("/layouts/boilerplates") %>
+
+<style>
+  body{
+    background:#f7f7f7;
+  }
+
+  .dash-title{
+    font-weight:700;
+    margin-bottom:25px;
+  }
+
+  .stat-card{
+    background:white;
+    border-radius:18px;
+    padding:25px;
+    box-shadow:0 6px 20px rgba(0,0,0,0.08);
+    transition:.3s;
+  }
+
+  .stat-card:hover{
+    transform:translateY(-5px);
+    box-shadow:0 12px 25px rgba(0,0,0,0.12);
+  }
+
+  .stat-icon{
+    font-size:28px;
+    margin-bottom:10px;
+  }
+
+  .stat-number{
+    font-size:28px;
+    font-weight:700;
+    color:#222;
+  }
+
+  .stat-label{
+    color:gray;
+    font-size:15px;
+  }
+
+  .revenue{
+    background:linear-gradient(135deg,#ff385c,#ff7a18);
+    color:white;
+  }
+
+  .revenue .stat-number{
+    color:white;
+  }
+
+  .revenue .stat-label{
+    color:#eee;
+  }
+</style>
+
+<div class="container mt-4">
+
+  <h2 class="dash-title">🏠 Admin Dashboard</h2>
+
+  <div class="row g-4">
+
+    <!-- Listings -->
+    <div class="col-md-3">
+      <div class="stat-card text-center">
+        <div class="stat-icon">🏡</div>
+        <div class="stat-number"><%= totalListings %></div>
+        <div class="stat-label">Total Listings</div>
+      </div>
+    </div>
+
+    <!-- Bookings -->
+    <div class="col-md-3">
+      <div class="stat-card text-center">
+        <div class="stat-icon">📅</div>
+        <div class="stat-number"><%= totalBookings %></div>
+        <div class="stat-label">Total Bookings</div>
+      </div>
+    </div>
+
+    <!-- Users -->
+    <div class="col-md-3">
+      <div class="stat-card text-center">
+        <div class="stat-icon">👤</div>
+        <div class="stat-number"><%= totalUsers %></div>
+        <div class="stat-label">Registered Users</div>
+      </div>
+    </div>
+
+    <!-- Revenue -->
+    <div class="col-md-3">
+      <div class="stat-card revenue text-center">
+        <div class="stat-icon">💰</div>
+        <div class="stat-number">₹<%= revenue %></div>
+        <div class="stat-label">Total Revenue</div>
+      </div>
+    </div>
+
+  </div>
+  <!-- CHART SECTION -->
+<div class="card mt-5 p-4">
+  <h4 class="mb-3">Revenue Analytics</h4>
+  <canvas id="revenueChart" height="100"></canvas>
+</div>
+
+
+</div>
+
+
+<!-- cdn -->
+ <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> 
+
+ <!-- js -->
+<script>
+const revenueData = <%- JSON.stringify(monthlyRevenue || [0,0,0,0,0,0,0,0,0,0,0,0]) %>;
+
+
+const ctx = document.getElementById("revenueChart");
+
+new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],
+        datasets: [{
+            label: "Revenue ₹",
+            data: revenueData,
+            backgroundColor: "#ff385c",
+            borderRadius: 6
+        }]
+    },
+    options: {
+        responsive:true,
+        plugins:{
+            legend:{display:false}
+        }
+    }
+});
+</script>

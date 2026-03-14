@@ -1,4 +1,6 @@
 const Listing = require("../models/listing");
+const Booking = require("../models/booking");
+
 
 
 module.exports.index = async (req, res, next) => {
@@ -6,6 +8,8 @@ module.exports.index = async (req, res, next) => {
     res.render("index.ejs", { allListing });
 
 };
+
+// search
 
 module.exports.search = async (req,res,next)=>{
     let { city } = req.body;
@@ -32,6 +36,45 @@ module.exports.search = async (req,res,next)=>{
     }
 
     res.render("index.ejs",{ allListing });
+};
+
+// Trending
+module.exports.trending = async (req,res)=>{
+
+   
+   const trendingData = await Booking.aggregate([
+      {
+         $group:{
+            _id:"$property",      
+            totalBookings:{ $sum:1 } 
+         }
+      },
+      {
+         $sort:{ totalBookings:-1 } 
+      },
+      {
+         $limit:6
+      }
+   ]);
+
+   
+   const propertyIds = trendingData.map(item => item._id);
+
+   
+   const allListing = await Listing.find({
+      _id: { $in: propertyIds }
+   });
+
+   res.render("index.ejs",{ allListing });
+};
+
+
+module.exports.categoryFilter = async (req,res)=>{
+   const {cat} = req.params;
+
+   const allListing = await Listing.find({category:cat});
+
+   res.render("index.ejs",{allListing});
 };
 
 

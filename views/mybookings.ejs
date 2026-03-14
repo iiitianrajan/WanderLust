@@ -1,0 +1,192 @@
+<% layout("/layouts/boilerplates") %>
+
+<style>
+body{
+  background:#f7f7f7;
+}
+
+/* heading */
+.trip-heading{
+  font-weight:700;
+  margin-bottom:25px;
+}
+
+/* card */
+.trip-card{
+  background:#fff;
+  border-radius:18px;
+  overflow:hidden;
+  box-shadow:0 6px 18px rgba(0,0,0,0.08);
+  transition:.3s;
+  position:relative;
+}
+
+.trip-card:hover{
+  transform:translateY(-6px);
+  box-shadow:0 15px 30px rgba(0,0,0,0.15);
+}
+
+/* image */
+.trip-img{
+  height:190px;
+  width:100%;
+  object-fit:cover;
+}
+
+/* body */
+.trip-body{
+  padding:16px;
+}
+
+.trip-title{
+  font-weight:600;
+  font-size:18px;
+}
+
+/* price */
+.price{
+  font-weight:700;
+  font-size:18px;
+  color:#ff385c;
+}
+
+/* badge */
+.status-badge{
+  position:absolute;
+  top:12px;
+  left:12px;
+  background:#fff;
+  padding:5px 10px;
+  border-radius:20px;
+  font-size:12px;
+  font-weight:600;
+  box-shadow:0 2px 6px rgba(0,0,0,0.2);
+}
+
+.upcoming{
+  color:green;
+}
+
+.past{
+  color:gray;
+}
+
+/* cancel btn */
+.cancel-btn{
+  background:#ff385c;
+  border:none;
+  padding:7px 14px;
+  border-radius:10px;
+  color:white;
+  font-weight:500;
+  margin-top:6px;
+}
+
+.cancel-btn:hover{
+  background:#e31c5f;
+}
+
+/* section title */
+.section-title{
+  font-weight:600;
+  margin-top:35px;
+}
+</style>
+
+
+
+<div class="container mt-4">
+
+<h2 class="trip-heading">✈️ My Trips</h2>
+
+<!--  UPCOMING  -->
+<h4 class="section-title">Upcoming Trips</h4>
+<hr>
+
+<% if(upcoming.length === 0){ %>
+<p class="text-muted">No upcoming trips yet</p>
+<% } %>
+
+<div class="row g-4">
+
+<% upcoming.forEach(b=>{ %>
+
+<div class="col-md-4">
+<div class="trip-card">
+
+<span class="status-badge upcoming">Upcoming</span>
+
+<img src="<%= b.property.image.url %>" class="trip-img">
+
+<div class="trip-body">
+
+<div class="trip-title"><%= b.property.title %></div>
+
+<p class="text-muted mb-1">
+<i class="fa-solid fa-location-dot"></i>
+<%= b.property.location %>
+</p>
+
+<p class="mb-1">
+<i class="fa-solid fa-calendar"></i>
+<%= b.fromDate.toDateString() %> → <%= b.toDate.toDateString() %>
+</p>
+
+<p class="price">₹<%= b.totalPrice %></p>
+
+<form action="/booking/<%= b._id %>?_method=DELETE" method="POST">
+<button class="cancel-btn">Cancel</button>
+</form>
+
+</div>
+</div>
+</div>
+
+<% }) %>
+</div>
+
+
+
+<!--  PAST -->
+<h4 class="section-title">Past Trips</h4>
+<hr>
+
+<% if(past.length === 0){ %>
+<p class="text-muted">No past trips</p>
+<% } %>
+
+<div class="row g-4">
+
+<% past.forEach(b=>{ %>
+
+<div class="col-md-4">
+<div class="trip-card">
+
+<span class="status-badge past">Completed</span>
+
+<img src="<%= b.property.image.url %>" class="trip-img">
+
+<div class="trip-body">
+
+<div class="trip-title"><%= b.property.title %></div>
+
+<p class="text-muted mb-1">
+<i class="fa-solid fa-location-dot"></i>
+<%= b.property.location %>
+</p>
+
+<p class="mb-1">
+<i class="fa-solid fa-calendar"></i>
+<%= b.fromDate.toDateString() %> → <%= b.toDate.toDateString() %>
+</p>
+
+<p class="fw-bold">₹<%= b.totalPrice %></p>
+
+</div>
+</div>
+</div>
+
+<% }) %>
+</div>
+
+</div>

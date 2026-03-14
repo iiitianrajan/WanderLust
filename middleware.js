@@ -28,3 +28,11 @@ module.exports.isOwner = async(req,res,next)=>{
     }
     next();
 }
+
+module.exports.isAdmin = (req,res,next)=>{
+    if(!req.user || req.user.role !== "admin"){
+        req.flash("error","Only admin can access dashboard");
+        return res.redirect("/listing");
+    }
+    next();
+};

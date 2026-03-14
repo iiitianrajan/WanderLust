@@ -50,7 +50,7 @@
       <div class="navbar-nav ms-auto">
         <form action="/listing/search" class="d-flex" role="search" method="POST">
           <input class="form-control me-2 search-input" type="search" placeholder="Search destination"
-            aria-label="Search" name="city" autocomplete="off"/>
+            aria-label="Search" name="city" autocomplete="off" />
           <button class="btn search-btn" type="submit">
             <div style="display: flex; justify-content: center; align-items: center;"><i
                 class="fa-solid fa-magnifying-glass"></i>Search</div>
@@ -58,16 +58,30 @@
         </form>
       </div>
 
+      
+
       <div class="navbar-nav ms-auto">
         <a class="nav-link" href="/listing/new">Airbnb your home</a>
         <% if(!currUser){%>
           <a class="nav-link " href="/signup"><b>Sign Up</b></a>
           <a class="nav-link" href="/login"><b>Log In</b></a>
           <% } %>
-
-            <% if(currUser){%>
-              <a class="nav-link" href="/logout"><b>Log Out</b></a>
+          
+            <!-- only for admin -->
+            <% if(currUser && currUser.role==="admin" ){ %>
+              <li class="nav-item">
+                <a class="nav-link" href="/dashboard">Dashboard</a>
+              </li>
               <% } %>
+
+                <% if(currUser){%>
+                  <a class="nav-link" href="/booking/mybooking"><b>My Bookings</b></a>
+                  <a class="nav-link" href="/logout"><b>Log Out</b></a>
+
+                  <% } %>
+
+
+
 
       </div>
     </div>
@@ -76,9 +90,9 @@
 
 <script>
   window.addEventListener("pageshow", function () {
-      const input = document.querySelector(".search-input");
-      if(input){
-          input.value = "";
-      }
+    const input = document.querySelector(".search-input");
+    if (input) {
+      input.value = "";
+    }
   });
 </script>
