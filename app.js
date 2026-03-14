@@ -58,7 +58,7 @@ async function main() {
 
 
 const store = MongoStore.create({
-    mongoUrl: mongoURL,
+    mongoUrl: dbUrl,
     touchAfter: 24 * 3600,
 });
 
